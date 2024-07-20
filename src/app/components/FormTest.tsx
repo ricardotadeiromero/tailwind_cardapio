@@ -12,10 +12,12 @@ import React from "react";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { FoodSchema } from "../schema/FoodSchema";
+
 import { Input } from "@/components/ui/input";
-import { useFoodDataMutate } from "../hooks/useFoodDataMutate";
+
 import { Button } from "@/components/ui/button";
+import { FoodSchema } from "@/app/schema/FoodSchema";
+import { useFoodDataMutate } from "@/app/hooks/useFoodDataMutate";
 
 interface FormTestProps {
   setOpen(state: boolean): void;

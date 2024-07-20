@@ -1,6 +1,7 @@
+import { useFoodDataMutate } from "@/app/hooks/useFoodDataMutate";
+import { FoodData } from "@/app/interface/FoodData";
 import React, { useState } from "react";
-import { useFoodDataMutate } from "../hooks/useFoodDataMutate";
-import { FoodData } from "../interface/FoodData";
+
 
 interface InputProps {
   label: string;

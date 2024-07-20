@@ -1,6 +1,6 @@
 "use client";
 import { UserSchema } from "@/app/schema/UserSchema";
-import React from "react";
+import React, { useContext } from "react";
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,23 +14,33 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/app/contexts/AuthContext";
 
 export default function FormLogin() {
   const form = useForm<z.infer<typeof UserSchema>>({
     resolver: zodResolver(UserSchema),
   });
 
+  const { signIn } = useContext(AuthContext); 
+
+  function onSubmit({email,password} : z.infer<typeof UserSchema>) {
+    signIn({email,password});
+  }
+
   return (
     <Form {...form}>
       <div className="w-full h-full flex flex-col justify-center">
-        <form className="w-full space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-6"
+        >
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="username" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

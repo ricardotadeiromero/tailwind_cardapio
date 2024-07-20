@@ -1,13 +1,23 @@
-import { Button } from "@/components/ui/button";
 import CardSection from "./components/CardSection";
-import NewCard from "./components/NewCard";
 import NewModal from "./components/NewModal";
-import Navbar from "./components/Navbar";
+import { parseCookies } from "nookies";
+import { api } from "@/app/services/api";
+import { redirect } from "next/navigation";
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext";
 
-export default function Home() {
+const getToken = async () => {
+  const { token } = parseCookies();
+  console.log(token);
+  if (!token) {
+    redirect("/login");
+  }
+};
+
+export default async function Home() {
+  await getToken();
   return (
     <>
-
       <div className="w-full p-6 mx-auto flex flex-col items-center">
         <h1 className="font-extrabold text-orange-500 text-5xl">
           Crado Lanches

@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import Card from "./Card";
-import { useFoodData } from "../hooks/useFoodData";
 import CardTest from "./CardTest";
+import { useFoodData } from "@/app/hooks/useFoodData";
 
 export default function CardSection() {
   const { data } = useFoodData();
