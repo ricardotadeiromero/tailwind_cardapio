@@ -1,7 +1,3 @@
-import axios from "axios";
+import { getAPIClient } from "./axios";
 
-
-export const api = axios.create({
-    baseURL: 'http://localhost:8080',
-    withCredentials: true
-});
+export const api = getAPIClient();

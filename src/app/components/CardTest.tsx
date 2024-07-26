@@ -18,12 +18,9 @@ interface CardProps {
 
 export default function CardTest({ title, price, image }: CardProps) {
   return (
-    <Card className="bg-orange-200">
+    <Card>
       <CardHeader className="flex flex-row justify-between w-full">
         <CardTitle className="text-xl">{title}</CardTitle>
-        <button>
-          <VscChromeClose />
-        </button>
       </CardHeader>
       <CardContent className="relative w-[250px] m-6 h-[200px]">
         <Image
@@ -36,7 +33,7 @@ export default function CardTest({ title, price, image }: CardProps) {
       <CardFooter>
         <div className="w-full items-center flex justify-between">
           <p className="font-semibold text-md">R${price}</p>
-          <Button variant="buy">Comprar</Button>
+          <Button variant="ghost">Comprar</Button>
         </div>
       </CardFooter>
     </Card>

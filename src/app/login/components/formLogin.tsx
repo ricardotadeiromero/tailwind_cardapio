@@ -15,16 +15,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/app/contexts/AuthContext";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 export default function FormLogin() {
   const form = useForm<z.infer<typeof UserSchema>>({
     resolver: zodResolver(UserSchema),
   });
 
-  const { signIn } = useContext(AuthContext); 
+  const { signIn, loading } = useContext(AuthContext);
 
-  function onSubmit({email,password} : z.infer<typeof UserSchema>) {
-    signIn({email,password});
+  function onSubmit({ email, password }: z.infer<typeof UserSchema>) {
+    signIn({ email, password });
   }
 
   return (
@@ -52,13 +53,17 @@ export default function FormLogin() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="password" {...field} />
+                  <Input type="password" placeholder="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button variant="login">Login</Button>
+          <Button variant="login">{loading? (
+            <LoadingSpinner/>
+          ): (
+            "Login"
+          )}</Button>
         </form>
       </div>
     </Form>

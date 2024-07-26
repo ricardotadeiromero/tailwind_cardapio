@@ -19,7 +19,7 @@ export default function NewModal() {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="new">Novo Item</Button>
+        <Button variant="default">Novo Item</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

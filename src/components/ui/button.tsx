@@ -9,11 +9,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        login: "w-full bg-orange-600 text-white ",
-        new: "border-2 border-red-600 text-zinc-800 hover:bg-red-600 hover:text-zinc-200 ",
-        buy: "border border-input border-orange-500 bg-orange-50 shadow-sm hover:bg-orange-400 hover:text-zinc-100",
+        login:
+          "w-full bg-primary hover:bg-primary/90  text-primary-foreground rounded-none",
+        new: "rounded-sm",
+        buy: "border border-inputshadow-sm",
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+          "bg-primary rounded-sm text-primary-foreground shadow hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
