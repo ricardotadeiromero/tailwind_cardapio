@@ -8,19 +8,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 import { FoodSchema } from "@/app/schema/FoodSchema";
 import { useFoodDataMutate } from "@/app/hooks/useFoodDataMutate";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FoodData } from "@/app/interface/FoodData";
 import { updateFoodData } from "@/app/hooks/updateFoodData";
+import { DialogFooter } from "@/components/ui/dialog";
 
 interface FormFoodProps {
   foodData?: FoodData | null;
@@ -33,7 +32,13 @@ export default function FormFood({ foodData }: FormFoodProps) {
 
   const form = useForm<z.infer<typeof FoodSchema>>({
     resolver: zodResolver(FoodSchema),
+    defaultValues: {
+      title: foodData?.title || "",
+      image: foodData?.image || "",
+      price: foodData?.price,
+    },
   });
+
   async function onSubmit(data: z.infer<typeof FoodSchema>) {
     if (foodData) {
       update({ id: foodData.id, ...data });
@@ -42,6 +47,7 @@ export default function FormFood({ foodData }: FormFoodProps) {
     }
     router.push("/dashboard");
   }
+
   useEffect(() => {
     if (foodData) {
       form.setValue("title", foodData.title);
@@ -57,12 +63,11 @@ export default function FormFood({ foodData }: FormFoodProps) {
           control={form.control}
           name="title"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex justify-between  items-center">
               <FormLabel>Título</FormLabel>
               <FormControl>
-                <Input placeholder="título" {...form.register} {...field} />
+                <Input className="w-[80%]" placeholder="título" {...field} />
               </FormControl>
-              <FormDescription>Nome do item.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -71,12 +76,11 @@ export default function FormFood({ foodData }: FormFoodProps) {
           control={form.control}
           name="image"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex justify-between  items-center">
               <FormLabel>Imagem</FormLabel>
               <FormControl>
-                <Input placeholder="imagem" {...form.register} {...field} />
+                <Input className="w-[80%]" placeholder="imagem" {...field} />
               </FormControl>
-              <FormDescription>Imagem do item.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -85,12 +89,11 @@ export default function FormFood({ foodData }: FormFoodProps) {
           control={form.control}
           name="price"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex justify-between items-center">
               <FormLabel>Preço</FormLabel>
               <FormControl>
-                <Input placeholder="price" {...form.register} {...field} />
+                <Input className="w-[80%]" placeholder="preço" {...field} />
               </FormControl>
-              <FormDescription>Preço do item.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
