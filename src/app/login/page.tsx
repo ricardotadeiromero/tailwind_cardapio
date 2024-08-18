@@ -12,7 +12,7 @@ export default function Login() {
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="account">Sign In</TabsTrigger>
+            <TabsTrigger value="account">Sign Up</TabsTrigger>
           </TabsList>
           <TabsContent className="flex flex-col items-center" value="login">
             <Image src={logo} width={200} alt="logo" height={100} />

@@ -4,10 +4,10 @@ import { User } from "../interface/User";
 import { destroyCookie, parseCookies } from "nookies";
 import { SignInData } from "../interface/SignInData";
 import { api } from "../services/api";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import UserNotFound from "../components/UserNotFound";
 import { useToast } from "@/components/ui/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { recover } from "../services/user";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -18,7 +18,7 @@ type AuthContextType = {
   user: User | null;
   loading: boolean;
   signIn: (data: SignInData) => Promise<void | ReactNode>;
-  signOut: () => Promise<void | ReactNode>
+  signOut: () => Promise<void | ReactNode>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -30,25 +30,25 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const isAuthenticated = !!user;
 
+  const { data, isFetching } = useQuery({
+    queryFn: () => recover(),
+    queryKey: ["user"],
+    enabled: !!parseCookies().token, // Habilita a query apenas se houver um token
+    retry: 2,
+  });
+
   useEffect(() => {
-    const { token } = parseCookies();
-    if (token) {
-      api
-        .get("/auth/recover")
-        .then((response) => {
-          const responseUser = response.data.user;
-          const filteredUser: User = {
-            id: responseUser.id,
-            email: responseUser.email,
-            username: responseUser.username,
-          };
-          setUser(filteredUser);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    if (data) {
+      const filteredUser: User = {
+        id: data.id,
+        email: data.email,
+        username: data.username,
+        image: data.image,
+        role: data.role,
+      };
+      setUser(filteredUser);
     }
-  }, []);
+  }, [data]);
 
   async function signIn({ email, password }: SignInData) {
     setLoading(true);
@@ -59,6 +59,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         id: responseUser.id,
         email: responseUser.email,
         username: responseUser.username,
+        image: responseUser.image,
+        role: responseUser.role,
       };
       setUser(filteredUser);
       toast({
@@ -66,7 +68,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         description: `Seja bem-vindo ${filteredUser.username}!`,
         variant: "default",
       });
-      router.push("/dashboard");
+      if (filteredUser.role.id < 3) {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (error) {
       toast({
         title: "Algo está errado!",
@@ -87,7 +93,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, loading, signOut }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, signIn, loading, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

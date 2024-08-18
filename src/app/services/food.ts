@@ -8,8 +8,20 @@ export async function findAll(): Promise<FoodData[]> {
   return data;
 }
 
-export async function updateFood(food: FoodData) {
-  await api.put(URL + "/" + food.id, food);
+export async function findAllGrouped(): Promise<Map<string, FoodData[]>> {
+  const { data } = await api.get(URL + "/types");
+  const map = new Map(Object.entries(data)) as Map<string, FoodData[]>;
+  return map;
+}
+
+export async function updateFood(food: FormData) {
+
+  const {data} = await api.put(URL + "/" + food.get("id"), food, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
 }
 
 export async function findFood(id: string): Promise<FoodData> {

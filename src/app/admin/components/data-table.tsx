@@ -3,12 +3,20 @@
 import {
   ColumnDef,
   flexRender,
+  VisibilityState,
   ColumnFiltersState,
   getCoreRowModel,
   getPaginationRowModel,
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import {
   Table,
@@ -20,45 +28,89 @@ import {
 } from "@/components/ui/table";
 
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { New } from "./New";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  form: ReactNode;
+  filter: {filter: string, name: string};
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  form,
+  filter
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const table = useReactTable({
     data,
     columns,
     onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
     state: {
       columnFilters,
+      columnVisibility,
     },
   });
 
+  const hiddenColunms = ["description", "ingredients", "image"];
+
+  const hideColunms = (keys: string[]): { [key: string]: boolean } => {
+    return keys.reduce((acc, key) => {
+      acc[key] = false;
+      return acc;
+    }, {} as { [key: string]: boolean });
+  };
+
+  useEffect(() => {
+    table.setColumnVisibility(hideColunms(hiddenColunms));
+  }, []);
   return (
     <>
-      <div className="flex items-center justify-between gap-2 w-full py-4">
-        <Input
-          placeholder="Filtragem por título..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <New />
+      <div className="flex md:flex-row flex-col items-center justify-between gap-2 w-full py-4">
+        <div className="flex md:flex-row flex-col w-full gap-2">
+          <Input
+            placeholder={`Filtragem por ${filter.name}...`}
+            value={(table.getColumn(filter.filter)?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn(filter.filter)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Colunas</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <New>{form}</New>
       </div>
       <div className="rounded-md border">
         <Table>

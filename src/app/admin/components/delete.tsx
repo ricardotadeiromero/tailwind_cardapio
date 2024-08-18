@@ -13,13 +13,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { deleteFoodData } from "@/app/hooks/deleteFoodData";
+import { UseMutateFunction } from "@tanstack/react-query";
 
 interface DeleteProps {
   id: string;
+  mutate: UseMutateFunction<void, Error, string, unknown>
 }
 
-export default function Delete({ id }: DeleteProps) {
-  const { mutate } = deleteFoodData();
+export default function Delete({ id, mutate }: DeleteProps) {
 
   function handleSubmit() {
     mutate(id);

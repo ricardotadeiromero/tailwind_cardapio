@@ -5,11 +5,12 @@ import ReactQueryClientProvider from "./ReactQueryClientProvider";
 import AuthProvider from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import FoodProvider from "./contexts/FoodContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Crado's Lanche",
+  title: "Straw's ",
   description: "Hamburgueria",
 };
 
@@ -22,11 +23,13 @@ export default function RootLayout({
     <html lang="en">
       <ReactQueryClientProvider>
         <AuthProvider>
-          <body className={inter.className}>
-            <Navbar />
-            {children}
-            <Toaster />
-          </body>
+          <FoodProvider>
+            <body className={inter.className}>
+              <Navbar />
+              {children}
+              <Toaster />
+            </body>
+          </FoodProvider>
         </AuthProvider>
       </ReactQueryClientProvider>
     </html>

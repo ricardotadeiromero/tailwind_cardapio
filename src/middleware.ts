@@ -15,12 +15,18 @@ export async function middleware(request: NextRequest) {
     const response = await action.verifyToken();
 
     if (response) {
-      // Se o token for válido e o usuário tentar acessar "/login", redirecione para "/dashboard"
-      if (request.nextUrl.pathname === "/login") {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+      const { role } = response;
+      // Se o token for válido e o usuário tentar acessar "/login", redirecione para "/admin"
+      if (request.nextUrl.pathname.startsWith("/admin")) {
+        if (role.id < 3) {
+          if (request.nextUrl.pathname === "/login") {
+            return NextResponse.redirect(new URL("/admin", request.url));
+          }
+          return NextResponse.next();
+        } else {
+          return NextResponse.redirect(new URL("/", request.url));
+        }
       }
-
-      // Permite a continuação da requisição
       return NextResponse.next();
     }
   }
@@ -36,5 +42,5 @@ export async function middleware(request: NextRequest) {
 
 // Configuração do matcher para aplicar o middleware em rotas específicas
 export const config = {
-  matcher: ["/dashboard/:path*", "/login"],
+  matcher: ["/admin/:path*", "/login", "/profile"],
 };

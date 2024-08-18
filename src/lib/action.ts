@@ -1,3 +1,4 @@
+import { User } from "@/app/interface/User";
 import { getAPIClient } from "@/app/services/axios";
 
 export class Action {
@@ -9,13 +10,17 @@ export class Action {
     this.getApi();
   }
 
-  async verifyToken(): Promise<Boolean> {
+  async verifyToken(): Promise<User | null> {
     try {
-      const response = await this.api.get("/auth/recover");
-      return true;
+      const { data } = await this.api.get("/auth/recover");
+      const user = data;
+  
+      return user;
     } catch (error) {
-      return false;
+      console.log("Token verification error: ", error);
     }
+  
+    return null;
   }
 
   getApi(): void {

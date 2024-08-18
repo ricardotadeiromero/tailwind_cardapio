@@ -26,8 +26,15 @@ export default function FormRegister() {
 
   const { signIn, loading } = useContext(AuthContext);
 
-  function onSubmit({ username, email, password }: z.infer<typeof UserSchema>) {
-    mutate({ username, email, password });
+  function onSubmit(data: z.infer<typeof UserSchema>) {
+    const formData = new FormData();
+    formData.append("username", data.username);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    if (data.image) {
+      formData.append("image", data.image);
+    }
+    mutate(formData);
   }
 
   return (
@@ -44,6 +51,29 @@ export default function FormRegister() {
               <FormItem>
                 <FormControl>
                   <Input placeholder="username" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field: { ref, name, onBlur, onChange } }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    placeholder="imagem"
+                    ref={ref}
+                    name={name}
+                    onBlur={onBlur}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      onChange(e.target.files?.[0]);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

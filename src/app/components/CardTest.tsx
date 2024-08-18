@@ -7,24 +7,28 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import React from "react";
-import { VscChromeClose } from "react-icons/vsc";
+import React, { useContext, useEffect, useState } from "react";
+import { FoodContext } from "../contexts/FoodContext";
+import { FoodData } from "../interface/FoodData";
+import Counter from "./Counter";
+import CurrencyFormatter from "./CurrencyFormatter";
+import FoodDetails from "./FoodDetails";
+import { toURL } from "../services/image";
 
 interface CardProps {
-  title: string;
-  price: number;
-  image: string;
+  food: FoodData;
 }
 
-export default function CardTest({ title, price, image }: CardProps) {
+export default function CardTest({ food }: CardProps) {
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between w-full">
-        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardTitle className="text-xl">{food.title}</CardTitle>
       </CardHeader>
-      <CardContent className="relative w-[250px] m-6 h-[200px]">
+      <CardContent className="relative m-6 h-[150px]">
         <Image
-          src={image}
+          src={food.image}
           alt="food-image"
           className="rounded-md"
           fill={true}
@@ -32,8 +36,13 @@ export default function CardTest({ title, price, image }: CardProps) {
       </CardContent>
       <CardFooter>
         <div className="w-full items-center flex justify-between">
-          <p className="font-semibold text-md">R${price}</p>
-          <Button variant="ghost">Comprar</Button>
+          <p className="font-semibold text-md">
+            <CurrencyFormatter value={food.price} />
+          </p>
+          {/* <Button variant="ghost">
+            <Counter food={food} />
+          </Button> */}
+          <FoodDetails food={food} />
         </div>
       </CardFooter>
     </Card>

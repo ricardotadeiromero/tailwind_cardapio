@@ -10,30 +10,37 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AuthContext } from "../contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import { toURL } from "../services/image";
 
 export default function UserMenu() {
-  const { signOut, isAuthenticated } = useContext(AuthContext);
+  const { signOut, isAuthenticated, user } = useContext(AuthContext);
   const router = useRouter();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src={user?.image} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Perfil</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            router.push("/profile");
+          }}
+        >
+          Perfil
+        </DropdownMenuItem>
         {isAuthenticated && (
           <DropdownMenuItem
             onClick={() => {
-              router.push("/dashboard");
+              router.push("/admin");
             }}
           >
-            Dashboard
+            Admin
           </DropdownMenuItem>
         )}
         <DropdownMenuItem onClick={signOut}>Logout</DropdownMenuItem>

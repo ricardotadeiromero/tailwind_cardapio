@@ -11,7 +11,6 @@ export async function signIn(email: string, password: string): Promise<User> {
       withCredentials: true,
     }
   );
-  console.log(response.data);
 
   if (!response.data) {
     throw new Error("Login failed");

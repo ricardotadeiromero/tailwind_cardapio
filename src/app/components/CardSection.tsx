@@ -1,24 +1,45 @@
 "use client";
-import React from "react";
-import Card from "./Card";
 import CardTest from "./CardTest";
-import { useFoodData } from "@/app/hooks/useFoodData";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
+import { useFoodDataGrouped } from "../hooks/useFoodDataGrouped";
 export default function CardSection() {
-  const { data } = useFoodData();
+  const { data, isFetching } = useFoodDataGrouped();
 
   return (
-    <div className="flex items-center justify-center container mx-auto">
-      <div className="m-6 grid grid-flow-col gap-6">
-        {data?.map((food) => (
-          <CardTest
-            key={food.id}
-            title={food.title}
-            price={food.price}
-            image={food.image}
-          />
+    <div className="container px-20">
+      {!isFetching &&
+        Array.from(data!).map(([key, value]) => (
+          <div key={key} id={key} className="mt-2">
+            <h2 className="font-bold text-lg">{key}</h2>
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              className="w-full"
+              key={key}
+            >
+              <CarouselContent>
+                {value.map((food, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="sm:basis-1/2 md:basis-1/3 lg:basis-1/5"
+                  >
+                    <CardTest key={food.id} food={food} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselNext />
+              <CarouselPrevious />
+            </Carousel>
+          </div>
         ))}
-      </div>
     </div>
   );
 }

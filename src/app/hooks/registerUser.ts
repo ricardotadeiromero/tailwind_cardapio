@@ -5,8 +5,12 @@ import { api } from "../services/api";
 import { useToast } from "@/components/ui/use-toast";
 import { User } from "../interface/User";
 
-const postData = async (user: User) => {
-  const { data } = await api.post("/auth/register", user);
+const postData = async (user: FormData) => {
+  const { data } = await api.post("/auth/register", user, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return data;
 };
 

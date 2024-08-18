@@ -10,7 +10,7 @@ export function getAPIClient(ctx?: any, token2?: string) {
   });
 
   api.interceptors.request.use((config) => {
-    console.log(config);
+
 
     return config;
   });

@@ -20,57 +20,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Delete from "./delete";
-import { useRouter } from "next/navigation"; // Correção na importação
-import FormFood from "./FormFood";
+import Delete from "../../components/delete";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ResponsiveDialog } from "./responsive-dialog";
+import { ResponsiveDialog } from "../../components/responsive-dialog";
 import Image from "next/image";
+import { FoodType } from "@/app/interface/FoodType";
+import { deleteFoodData } from "@/app/hooks/deleteFoodData";
+import FormType from "./FormType";
+import { deleteTypeData } from "@/app/hooks/type/deleteTypeData";
 
-export const columns: ColumnDef<FoodData>[] = [
+export const columns: ColumnDef<FoodType>[] = [
   {
     accessorKey: "id",
     header: "Id",
   },
   {
-    accessorKey: "title",
-    header: "Título",
-  },
-  {
-    accessorKey: "image",
-    header: "Imagem",
-    cell: ({ row }) => {
-      const image: string = row.getValue("image");
-      return (
-        <div className="relative w-[70px] h-[50px]">
-          <Image src={image} alt="item" fill={true} />
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "price",
-    header: "Preço",
-    cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"));
-      const formatted = new Intl.NumberFormat("pt-br", {
-        style: "currency",
-        currency: "BRL",
-      }).format(price);
-      return <div>{formatted}</div>;
-    },
+    accessorKey: "name",
+    header: "Nome",
   },
   {
     id: "actions",
     header: "Ações",
     cell: ({ row }) => {
-      const food = row.original;
-      const router = useRouter(); // Correção: uso do hook useRouter
+      const type = row.original;
       const [isEditDialogOpen, setEditDialogOpen] = useState(false);
-
-      const handleEdit = () => {
-        router.push("/dashboard/" + food.id);
-      };
+      const { mutate } = deleteTypeData();
 
       return (
         <>
@@ -79,7 +54,7 @@ export const columns: ColumnDef<FoodData>[] = [
             setIsOpen={setEditDialogOpen}
             title="Editar o item"
           >
-            <FormFood foodData={food} />
+            <FormType type={type} />
           </ResponsiveDialog>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
@@ -95,7 +70,7 @@ export const columns: ColumnDef<FoodData>[] = [
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Delete id={food.id!} />
+                <Delete mutate={mutate} id={type.id!} />
               </DropdownMenuItem>
               <DropdownMenuItem>Ver detalhes do pagamento</DropdownMenuItem>
             </DropdownMenuContent>

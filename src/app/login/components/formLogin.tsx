@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/app/contexts/AuthContext";
 import LoadingSpinner from "@/components/ui/loading-spinner";
+import { PasswordInput } from "@/components/ui/password-input";
 
 export default function FormLogin() {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -25,7 +26,6 @@ export default function FormLogin() {
   const { signIn, loading } = useContext(AuthContext);
 
   function onSubmit({ email, password }: z.infer<typeof LoginSchema>) {
-    console.log("teste");
     signIn({ email, password });
   }
 
@@ -54,7 +54,10 @@ export default function FormLogin() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type="password" placeholder="password" {...field} />
+                  <PasswordInput
+                    placeholder="password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
