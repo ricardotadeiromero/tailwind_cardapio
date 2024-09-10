@@ -51,7 +51,7 @@ export function Sidebar() {
           className="w-full justify-center text-white"
           variant="default"
         >
-          Tweet
+          ...
         </SidebarButton>
       </div>
     ),

@@ -49,7 +49,6 @@ export default function FormType({ type }: FormTypeProps) {
         name: data.name,
       });
     }
-    router.push("/admin");
   }
 
   useEffect(() => {

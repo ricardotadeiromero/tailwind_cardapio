@@ -1,5 +1,5 @@
 "use client";
-import CardTest from "./CardTest";
+import CardFood from "./CardFood";
 import {
   Carousel,
   CarouselContent,
@@ -31,7 +31,7 @@ export default function CardSection() {
                     key={index}
                     className="sm:basis-1/2 md:basis-1/3 lg:basis-1/5"
                   >
-                    <CardTest key={food.id} food={food} />
+                    <CardFood key={food.id} food={food} />
                   </CarouselItem>
                 ))}
               </CarouselContent>

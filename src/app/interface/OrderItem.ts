@@ -1,6 +1,6 @@
 import { FoodData } from "./FoodData";
 
-export interface Request {
+export interface OrderItem {
     id: number,
     food: FoodData,
     amount: number

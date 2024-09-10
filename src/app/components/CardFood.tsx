@@ -19,8 +19,7 @@ interface CardProps {
   food: FoodData;
 }
 
-export default function CardTest({ food }: CardProps) {
-
+export default function CardFood({ food }: CardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between w-full">

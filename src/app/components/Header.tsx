@@ -5,7 +5,7 @@ export default function Header() {
     <>
       <h1 className="text-center font-extrabold text-5xl">Straw's </h1>
       <div
-        className="mt-3 items-center
+        className="my-1 items-center
         flex gap-6"
       >
         <p>Faça seus pedidos já</p>

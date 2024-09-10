@@ -6,9 +6,9 @@ import TypeSection from "./components/TypeSection";
 export default function Home() {
   return (
     <>
-      <div className="pt-6 flex flex-col items-center">
+      <div className="pt-4 flex flex-col items-center">
         <Header />
-        <TypeSection/>
+        <TypeSection />
         <CardSection />
       </div>
     </>

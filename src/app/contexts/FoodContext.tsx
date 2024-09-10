@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { FoodData } from "../interface/FoodData";
-import { Request } from "../interface/Request";
+import { OrderItem } from "../interface/OrderItem";
 import { AuthContext } from "./AuthContext";
 import { redirect, useRouter } from "next/navigation";
 
@@ -19,7 +19,7 @@ interface FoodContextProps {
 type FoodContextType = {
   setSheetOpen: Dispatch<SetStateAction<boolean>>;
   sheetOpen: boolean;
-  requests: Request[];
+  requests: OrderItem[];
   addRequest: (request: {
     id?: number;
     food: FoodData;
@@ -31,7 +31,7 @@ type FoodContextType = {
 export const FoodContext = createContext({} as FoodContextType);
 
 export default function FoodProvider({ children }: FoodContextProps) {
-  const [requests, setRequests] = useState<Request[]>([]);
+  const [requests, setRequests] = useState<OrderItem[]>([]);
   const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);

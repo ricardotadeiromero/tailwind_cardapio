@@ -38,6 +38,7 @@ export default function FormUser() {
       setImg(user.image!);
       form.setValue("username", user?.username || "");
     }
+    form.setValue("newPassword", "");
   }, [form, user]);
 
   async function onSubmit(data: z.infer<typeof UserUploadSchema>) {

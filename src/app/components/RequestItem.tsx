@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { FoodData } from "../interface/FoodData";
 import { Separator } from "@/components/ui/separator";
 import { FoodContext } from "../contexts/FoodContext";
-import { Request } from "../interface/Request";
+import { OrderItem } from "../interface/OrderItem";
 import CurrencyFormatter from "./CurrencyFormatter";
 
 interface RequestItemProps {
-  req: Request;
+  req: OrderItem;
 }
 
 export default function RequestItem({ req }: RequestItemProps) {
