@@ -25,6 +25,7 @@ type FoodContextType = {
     food: FoodData;
     amount: number;
   }) => void;
+  setRequests: React.Dispatch<React.SetStateAction<OrderItem[]>>;
   removeRequest: (id: number) => void;
 };
 
@@ -57,7 +58,7 @@ export default function FoodProvider({ children }: FoodContextProps) {
   }
   return (
     <FoodContext.Provider
-      value={{ addRequest, removeRequest, setSheetOpen, sheetOpen, requests }}
+      value={{ addRequest, removeRequest, setSheetOpen, setRequests, sheetOpen, requests }}
     >
       {children}
     </FoodContext.Provider>

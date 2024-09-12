@@ -4,6 +4,7 @@ import {
   Bell,
   Bookmark,
   ChartColumn,
+  ConciergeBell,
   Home,
   List,
   Mail,
@@ -29,6 +30,9 @@ export function Sidebar() {
       { label: "Cardápio", href: "/admin/food", icon: Pizza },
       { label: "Categorias", href: "/admin/type", icon: ChartColumn },
       {
+        label: "Pedidos", href: "/admin/order", icon: ConciergeBell
+      },
+      {
         href: "/",
         icon: List,
         label: "Menu",
@@ -39,6 +43,7 @@ export function Sidebar() {
         icon: User,
         label: "Perfil",
       },
+      
     ],
     signOut: signOut,
     user: user,

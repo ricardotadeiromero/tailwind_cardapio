@@ -24,7 +24,7 @@ import { useOrderDataMutate } from "../hooks/order/useOrderDataMutate";
 import { foodImgToFile } from "../services/image";
 
 export function SheetRequests() {
-  const { requests, setSheetOpen, sheetOpen } = useContext(FoodContext);
+  const { requests, setRequests, setSheetOpen, sheetOpen } = useContext(FoodContext);
   const { user } = useContext(AuthContext);
   const { mutate } = useOrderDataMutate();
   const amount = requests.reduce(
@@ -39,6 +39,7 @@ export function SheetRequests() {
         amount: req.amount
       }));
       mutate({ client: user.id!, items: transformedItems });
+      setRequests([]);
     }
   }
   return (

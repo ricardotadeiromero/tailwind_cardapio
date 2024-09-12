@@ -1,12 +1,14 @@
 import { Order } from "@/app/interface/Order";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
+import FormOrder from "./FormOrder";
 
 interface OrderDetailsProps {
   order: Order;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function OrderDetails({ order }: OrderDetailsProps) {
+export default function OrderDetails({ order, setIsOpen }: OrderDetailsProps) {
   return (
     <>
       <p>
@@ -24,6 +26,7 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
           </div>
         ))}
       </div>
+      <FormOrder order={order} setIsOpen={setIsOpen}/>
     </>
   );
 }

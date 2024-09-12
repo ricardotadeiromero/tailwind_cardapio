@@ -34,7 +34,7 @@ export function SidebarMobile(props: SidebarMobileProps) {
       <SheetContent side="left" className="px-3 py-4">
         <SheetHeader className="flex flex-row justify-between items-center space-y-0">
           <span className="text-lg font-semibold text-foreground mx-3">
-            Straw Lanhces
+            Lanche Lanhces
           </span>
         </SheetHeader>
         <div className="h-full">

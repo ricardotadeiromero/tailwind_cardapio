@@ -38,6 +38,12 @@ export default function UserMenu() {
       action: null,
     },
     {
+      label: "Pedidos",
+      link: "/orders",
+      admin: false,
+      action: null
+    },
+    {
       label: "Admin",
       link: "/admin",
       admin: true,

@@ -39,7 +39,7 @@ export default function CardOrder({ order, index }: CardOrderProps) {
         title="Detalhes do pedido"
         description=""
       >
-        <OrderDetails order={order} />
+        <OrderDetails setIsOpen={setIsOpen} order={order} />
       </ResponsiveDialog>
       <Card className="w-[250px]">
         <CardHeader>

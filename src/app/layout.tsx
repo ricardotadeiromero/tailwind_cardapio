@@ -10,7 +10,7 @@ import FoodProvider from "./contexts/FoodContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Straw's ",
+  title: "Lanche's ",
   description: "Hamburgueria",
 };
 

@@ -20,7 +20,7 @@ export default function Navbar() {
     <nav className="shadow-md bg-primary w-full h-12">
       <div className="flex justify-between h-full items-center md:mx-20 sm:mx-10 mx-5">
         <h2 className="text-primary-foreground">
-          <Link href="/">Straw's </Link>
+          <Link href="/">Lanche's </Link>
         </h2>
         <div className="flex items-center justify-center gap-3">
           <PrivateMenus />
